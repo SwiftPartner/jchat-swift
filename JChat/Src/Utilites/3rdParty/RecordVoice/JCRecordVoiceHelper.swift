@@ -127,6 +127,7 @@ class JCRecordVoiceHelper: NSObject {
         
         let audioSession:AVAudioSession = AVAudioSession.sharedInstance()
         do {
+            // FIXME: 需要兼容 10以前的版本
             if #available(iOS 10.0, *) {
                 try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.default)
             }

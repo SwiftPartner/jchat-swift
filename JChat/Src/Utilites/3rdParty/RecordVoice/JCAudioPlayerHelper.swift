@@ -33,8 +33,10 @@ final class JCAudioPlayerHelper: NSObject {
         }
     }
     
+    
     func playAudioWithData(_ voiceData:Data) {
         do {
+            // FIXME: 需要兼容 10以前的版本
             if #available(iOS 10, *) {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
             }
