@@ -99,7 +99,7 @@ open class JCEmoticonInputView: UIView {
     
     private func _init() {
         
-        _color =  .black
+        _color = UIColor.groupTableViewBackground
         
         _pageControl.numberOfPages = 8
         _pageControl.hidesForSinglePage = true
