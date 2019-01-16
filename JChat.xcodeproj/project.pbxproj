@@ -45,6 +45,7 @@
 		65D311E11F8A8070006BAFDD /* UIViewController+JChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D311E01F8A8070006BAFDD /* UIViewController+JChat.swift */; };
 		65E081711F7D49460088730D /* UserDefaultValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E0816F1F7D49460088730D /* UserDefaultValidationService.swift */; };
 		65EA27881F70F5DE00E489C4 /* GroupAvatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EA27871F70F5DE00E489C4 /* GroupAvatorCell.swift */; };
+		9469840D21EF0CD6001DD917 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9469840C21EF0CD5001DD917 /* libc++.tbd */; };
 		AC3A15961D2DE46D0DABF7EB /* Pods_JChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBCCA1A62435BE8F41C4D275 /* Pods_JChatTests.framework */; };
 		B401970F1EF3B34C006B9F2D /* JCNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B401970E1EF3B34C006B9F2D /* JCNetworkManager.swift */; };
 		B401E5061E8B4A6C003ABE08 /* JCSignatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B401E5051E8B4A6C003ABE08 /* JCSignatureViewController.swift */; };
@@ -131,7 +132,6 @@
 		B43F70311EA87F7C0076D5AF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B43F70301EA87F7C0076D5AF /* CoreLocation.framework */; };
 		B43F70331EA87F910076D5AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B43F70321EA87F910076D5AF /* QuartzCore.framework */; };
 		B43F70351EA87FA10076D5AF /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B43F70341EA87FA10076D5AF /* OpenGLES.framework */; };
-		B43F70371EA880280076D5AF /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B43F70361EA880280076D5AF /* libstdc++.6.0.9.tbd */; };
 		B43F70481EA883DA0076D5AF /* JCAddMapViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B43F703A1EA883DA0076D5AF /* JCAddMapViewController.mm */; };
 		B43F704A1EA883DA0076D5AF /* icon_baidu_marker.png in Resources */ = {isa = PBXBuildFile; fileRef = B43F703D1EA883DA0076D5AF /* icon_baidu_marker.png */; };
 		B43F704B1EA883DA0076D5AF /* jiantou2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B43F703E1EA883DA0076D5AF /* jiantou2@2x.png */; };
@@ -299,6 +299,7 @@
 		65E0816F1F7D49460088730D /* UserDefaultValidationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultValidationService.swift; sourceTree = "<group>"; };
 		65EA27871F70F5DE00E489C4 /* GroupAvatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAvatorCell.swift; sourceTree = "<group>"; };
 		6F45094B9185E340E098980B /* Pods-JChatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JChatTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JChatTests/Pods-JChatTests.release.xcconfig"; sourceTree = "<group>"; };
+		9469840C21EF0CD5001DD917 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9C5229541B366E492E890423 /* Pods_JChatUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JChatUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B401970E1EF3B34C006B9F2D /* JCNetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCNetworkManager.swift; sourceTree = "<group>"; };
 		B401E5051E8B4A6C003ABE08 /* JCSignatureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCSignatureViewController.swift; sourceTree = "<group>"; };
@@ -503,7 +504,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B43F70371EA880280076D5AF /* libstdc++.6.0.9.tbd in Frameworks */,
+				9469840D21EF0CD6001DD917 /* libc++.tbd in Frameworks */,
 				B43BA43F1E8A30C400565DB3 /* CoreTelephony.framework in Frameworks */,
 				B43BA4391E8A30A900565DB3 /* SystemConfiguration.framework in Frameworks */,
 				B43BA4351E8A309300565DB3 /* Security.framework in Frameworks */,
@@ -1205,6 +1206,7 @@
 		DDA5C80485C5FFA2C3776F21 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9469840C21EF0CD5001DD917 /* libc++.tbd */,
 				B43F70361EA880280076D5AF /* libstdc++.6.0.9.tbd */,
 				B43F70341EA87FA10076D5AF /* OpenGLES.framework */,
 				B43F70321EA87F910076D5AF /* QuartzCore.framework */,
@@ -1258,8 +1260,6 @@
 				B43BA3841E8A2F0000565DB3 /* Sources */,
 				B43BA3851E8A2F0000565DB3 /* Frameworks */,
 				B43BA3861E8A2F0000565DB3 /* Resources */,
-				00715A2C3CFA228CADC0057E /* [CP] Embed Pods Frameworks */,
-				1FAE9549CCFF93C6E1F21EA8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1279,8 +1279,6 @@
 				B43BA38F1E8A2F0000565DB3 /* Sources */,
 				B43BA3901E8A2F0000565DB3 /* Frameworks */,
 				B43BA3911E8A2F0000565DB3 /* Resources */,
-				88D8EA0CC18AE2D353694519 /* [CP] Embed Pods Frameworks */,
-				7D08DA5D74645CE234427439 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1305,6 +1303,7 @@
 				TargetAttributes = {
 					B43BA3731E8A2F0000565DB3 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = MQ7G6Q36X8;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -1387,21 +1386,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		00715A2C3CFA228CADC0057E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JChatTests/Pods-JChatTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		0B5A806B71DCC9E2A0842D61 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1409,30 +1393,15 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-JChat/Pods-JChat-resources.sh",
-				"${PODS_ROOT}/BaiduMapKit/BaiduMapKit/BaiduMapAPI_Map.framework/Resources/mapapi.bundle",
+				"${PODS_ROOT}/BaiduMapKit/BaiduMapKit/BaiduMapAPI_Map.framework/mapapi.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mapapi.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JChat/Pods-JChat-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1FAE9549CCFF93C6E1F21EA8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JChatTests/Pods-JChatTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		70DD9288AA08E1D9BCFEDE17 /* [CP] Embed Pods Frameworks */ = {
@@ -1445,6 +1414,7 @@
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/YHPhotoKit/YHPhotoKit.framework",
@@ -1455,6 +1425,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YHPhotoKit.framework",
@@ -1463,36 +1434,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JChat/Pods-JChat-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7D08DA5D74645CE234427439 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JChatUITests/Pods-JChatUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		88D8EA0CC18AE2D353694519 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JChatUITests/Pods-JChatUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A0A5931D9F1014922BC7FEF8 /* [CP] Check Pods Manifest.lock */ = {
@@ -1886,14 +1827,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = JChat/JChat.entitlements;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = MQ7G6Q36X8;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = JChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1904,9 +1845,10 @@
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D READ_VERSION";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bechoed.jjj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/JChat/JChat-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1917,14 +1859,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = JChat/JChat.entitlements;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = MQ7G6Q36X8;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = JChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1935,9 +1877,10 @@
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D READ_VERSION";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bechoed.jjj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/JChat/JChat-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1952,7 +1895,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dengyonghao.JChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JChat.app/JChat";
 			};
 			name = Debug;
@@ -1968,7 +1911,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dengyonghao.JChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JChat.app/JChat";
 			};
 			name = Release;
@@ -1983,7 +1926,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dengyonghao.JChatUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = JChat;
 			};
 			name = Debug;
@@ -1998,7 +1941,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dengyonghao.JChatUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = JChat;
 			};
 			name = Release;

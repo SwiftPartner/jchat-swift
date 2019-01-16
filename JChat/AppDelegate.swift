@@ -13,7 +13,8 @@ import JMessage
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let JMAPPKEY = <#填写你的 JMessage AppKey#>
+    // TODO: 设置APPKEY
+    let JMAPPKEY = "ab144665899cd252a34de258"
     // 百度地图 SDK AppKey，请自行申请你对应的 AppKey
     let BMAPPKEY = "BNsPzc36d1GBRD9zC3QGO3wUFbY3P3qv"
     
@@ -26,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     //MARK: - life cycle
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         #if READ_VERSION
             print("-------------READ_VERSION------------")
@@ -53,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _setupJMessage()
         
         _mapManager = BMKMapManager()
-        BMKMapManager.setCoordinateTypeUsedInBaiduMapSDK(BMK_COORDTYPE_BD09LL)
+        BMKMapManager.setCoordinateTypeUsedInBaiduMapSDK(BMK_COORD_TYPE.COORDTYPE_BD09LL)
         _mapManager?.start(BMAPPKEY, generalDelegate: nil)
         
         hostReachability = Reachability(hostName: "www.apple.com")
@@ -63,6 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .white
         _setupRootViewController()
         window?.makeKeyAndVisible()
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveFriendNotification(_:)), name: NSNotification.Name(kUpdateFriendInfo), object: nil)
         return true
     }
 
@@ -78,6 +80,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         resetBadge(application)
     }
     
+    // FIXME: 好友监听
+    @objc func didReceiveFriendNotification(_ notification: NSNotification) {
+        
+    }
     
     // MARK: - private func
     private func _setupJMessage() {
@@ -127,45 +133,49 @@ extension AppDelegate: JMessageDelegate {
         MBProgressHUD_JChat.show(text: "数据库升级完成", view: nil)
     }
     
+    // FIXME: 事件处理
     func onReceive(_ event: JMSGNotificationEvent!) {
-        switch event.eventType {
-        case .receiveFriendInvitation, .acceptedFriendInvitation, .declinedFriendInvitation:
-            cacheInvitation(event: event)
-        case .loginKicked, .serverAlterPassword, .userLoginStatusUnexpected:
-            _logout()
-        case .deletedFriend, .receiveServerFriendUpdate:
-            NotificationCenter.default.post(name: Notification.Name(rawValue: kUpdateFriendList), object: nil)
-        default:
-            break
-        }
+    
+//        switch event.eventType {
+//
+////        case .receiveFriendInvitation, .acceptedFriendInvitation, .declinedFriendInvitation:
+////            cacheInvitation(event: event)
+//        case .loginKicked, .serverAlterPassword, .userLoginStatusUnexpected:
+//            _logout()
+//        case .deletedFriend, .receiveServerFriendUpdate:
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: kUpdateFriendList), object: nil)
+//        default:
+//            break
+//        }
     }
     
+     // FIXME: 事件处理
     private func cacheInvitation(event: JMSGNotificationEvent) {
-        let friendEvent =  event as! JMSGFriendNotificationEvent
-        let user = friendEvent.getFromUser()
-        let reason = friendEvent.getReason()
-        let info = JCVerificationInfo.create(username: user!.username, nickname: user?.nickname, appkey: user!.appKey!, resaon: reason, state: JCVerificationType.wait.rawValue)
-        switch event.eventType {
-        case .receiveFriendInvitation:
-            info.state = JCVerificationType.receive.rawValue
-            JCVerificationInfoDB.shareInstance.insertData(info)
-        case .acceptedFriendInvitation:
-            info.state = JCVerificationType.accept.rawValue
-            JCVerificationInfoDB.shareInstance.updateData(info)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: kUpdateFriendList), object: nil)
-        case .declinedFriendInvitation:
-            info.state = JCVerificationType.reject.rawValue
-            JCVerificationInfoDB.shareInstance.updateData(info)
-        default:
-            break
-        }
-        if UserDefaults.standard.object(forKey: kUnreadInvitationCount) != nil {
-            let count = UserDefaults.standard.object(forKey: kUnreadInvitationCount) as! Int
-            UserDefaults.standard.set(count + 1, forKey: kUnreadInvitationCount)
-        } else {
-            UserDefaults.standard.set(1, forKey: kUnreadInvitationCount)
-        }
-        NotificationCenter.default.post(name: Notification.Name(rawValue: kUpdateVerification), object: nil)
+//        let friendEvent =  event as! JMSGFriendNotificationEvent
+//        let user = friendEvent.getFromUser()
+//        let reason = friendEvent.getReason()
+//        let info = JCVerificationInfo.create(username: user!.username, nickname: user?.nickname, appkey: user!.appKey!, resaon: reason, state: JCVerificationType.wait.rawValue)
+//        switch event.eventType {
+//        case .receiveFriendInvitation:
+//            info.state = JCVerificationType.receive.rawValue
+//            JCVerificationInfoDB.shareInstance.insertData(info)
+//        case .acceptedFriendInvitation:
+//            info.state = JCVerificationType.accept.rawValue
+//            JCVerificationInfoDB.shareInstance.updateData(info)
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: kUpdateFriendList), object: nil)
+//        case .declinedFriendInvitation:
+//            info.state = JCVerificationType.reject.rawValue
+//            JCVerificationInfoDB.shareInstance.updateData(info)
+//        default:
+//            break
+//        }
+//        if UserDefaults.standard.object(forKey: kUnreadInvitationCount) != nil {
+//            let count = UserDefaults.standard.object(forKey: kUnreadInvitationCount) as! Int
+//            UserDefaults.standard.set(count + 1, forKey: kUnreadInvitationCount)
+//        } else {
+//            UserDefaults.standard.set(1, forKey: kUnreadInvitationCount)
+//        }
+//        NotificationCenter.default.post(name: Notification.Name(rawValue: kUpdateVerification), object: nil)
     }
     
     func _logout() {

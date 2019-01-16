@@ -42,8 +42,9 @@ class JCVideoManager {
         let avAsset = AVAsset(url: videoURL)
         let generator = AVAssetImageGenerator(asset: avAsset)
         generator.appliesPreferredTrackTransform = true
-        let time = CMTimeMakeWithSeconds(0.0,600)
-        var actualTime = CMTimeMake(0,0)
+        let time = CMTime(seconds: 0.0, preferredTimescale: 600)
+        
+        var actualTime = CMTime(value: 0, timescale: 0)
         do {
             let imageRef = try generator.copyCGImage(at: time, actualTime: &actualTime)
             let frameImg = UIImage(cgImage: imageRef)

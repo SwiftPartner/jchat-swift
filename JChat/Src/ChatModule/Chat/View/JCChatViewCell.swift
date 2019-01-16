@@ -78,11 +78,11 @@ open class JCChatViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     }
     
     
-    private lazy var send_nor = UIImage.loadImage("chat_bubble_send_nor")!.resizableImage(withCapInsets: UIEdgeInsetsMake(25, 25, 25, 25))
-    private lazy var send_press = UIImage.loadImage("chat_bubble_send_press")!.resizableImage(withCapInsets: UIEdgeInsetsMake(25, 25, 25, 25))
+    private lazy var send_nor = UIImage.loadImage("chat_bubble_send_nor")!.resizableImage(withCapInsets: UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25))
+    private lazy var send_press = UIImage.loadImage("chat_bubble_send_press")!.resizableImage(withCapInsets: UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25))
     
-    private lazy var recive_nor = UIImage.loadImage("chat_bubble_recive_nor")!.resizableImage(withCapInsets: UIEdgeInsetsMake(25, 25, 25, 25))
-    private lazy var recive_press = UIImage.loadImage("chat_bubble_recive_press")!.resizableImage(withCapInsets: UIEdgeInsetsMake(25, 25, 25, 25))
+    private lazy var recive_nor = UIImage.loadImage("chat_bubble_recive_nor")!.resizableImage(withCapInsets: UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25))
+    private lazy var recive_press = UIImage.loadImage("chat_bubble_recive_press")!.resizableImage(withCapInsets: UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25))
     
     private func _updateViews() {
 
@@ -228,12 +228,12 @@ open class JCChatViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         return true
     }
     
-    func copyMessage(_ sender: Any) {}
-    func deleteMessage(_ sender: Any) {}
-    func forwardMessage(_ sender: Any) {}
-    func withdrawMessage(_ sender: Any) {}
+    @objc func copyMessage(_ sender: Any) {}
+    @objc func deleteMessage(_ sender: Any) {}
+    @objc func forwardMessage(_ sender: Any) {}
+    @objc func withdrawMessage(_ sender: Any) {}
 
-    private dynamic func _handleMenuGesture(_ sender: UILongPressGestureRecognizer) {
+    @objc private dynamic func _handleMenuGesture(_ sender: UILongPressGestureRecognizer) {
         guard sender.state == .began else {
             return
         }
@@ -243,7 +243,8 @@ open class JCChatViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
                 return
         }
         
-        let rect = UIEdgeInsetsInsetRect(info.layoutedRect(with: .content), -content.layoutMargins)
+        let rect = info.layoutedRect(with: .content).inset(by: -content.layoutMargins)
+//        let rect = UIEdgeInsetsInsetRect(info.layoutedRect(with: .content), -content.layoutMargins)
         let menuController = UIMenuController.shared
         
         // set responder
@@ -268,7 +269,7 @@ open class JCChatViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         
         // set selected
         self.isHighlighted = true
-        self._menuNotifyObserver = NotificationCenter.default.addObserver(forName: .UIMenuControllerWillHideMenu, object: nil, queue: nil) { [weak self] notification in
+        self._menuNotifyObserver = NotificationCenter.default.addObserver(forName: UIMenuController.willHideMenuNotification, object: nil, queue: nil) { [weak self] notification in
             // is release?
             guard let observer = self?._menuNotifyObserver else {
                 return

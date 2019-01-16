@@ -14,10 +14,10 @@ import UIKit
 }
 
 class JCSingleSettingCell: UITableViewCell {
-
+    
     weak var delegate: JCSingleSettingCellDelegate?
-
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         _init()
     }
@@ -83,12 +83,12 @@ class JCSingleSettingCell: UITableViewCell {
         addConstraint(_JCLayoutConstraintMake(addButton, .top, .equal, contentView, .top, 16.5))
     }
     
-    func _clickAvator() {
+    @objc func _clickAvator() {
         delegate?.singleSettingCell?(clickAvatorButton: avatorButton)
     }
     
-    func _clickAdd() {
+    @objc  func _clickAdd() {
         delegate?.singleSettingCell?(clickAddButton: addButton)
     }
-
+    
 }

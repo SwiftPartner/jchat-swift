@@ -44,7 +44,7 @@ final class ThemeManager: NSObject {
         themeColors = getThemeColors()
         // 收到内存警告时，移除所有缓存
         NotificationCenter.default.addObserver(
-            self, selector: #selector(clearMemoryCache), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
+            self, selector: #selector(clearMemoryCache), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
     }
 
     deinit {
@@ -133,7 +133,7 @@ final class ThemeManager: NSObject {
 
         if imagePath == nil && name.hasSuffix("@2x") && nameLength > 3 {
             let index = name.index(name.endIndex, offsetBy: -3)
-            name = name.substring(with: Range<String.Index>(name.startIndex ..< index))
+            name = String(name[..<index])
         }
 
         if imagePath == nil && !name.hasSuffix("@2x") {

@@ -50,7 +50,8 @@ class JCRegisterInfoViewController: UIViewController {
     private lazy var registerButton: UIButton = {
         var button = UIButton()
         button.backgroundColor = UIColor(netHex: 0x2DD0CF)
-        button.frame = CGRect(x: 38, y: 64 + 40 + 80 + 40 + 40 + 38, width: self.view.width - 76, height: 40)
+        //        button.frame = CGRect(x: 38, y: 64 + 40 + 80 + 40 + 40 + 38, width: self.view.width - 76, height: 40)
+        button.frame = CGRect(x: 38, y: CGFloat(64 + 40 + 80 + 40 + 40 + 38), width: self.view.width - 76, height: 40)
         button.setTitle("完成", for: .normal)
         button.layer.cornerRadius = 3.0
         button.layer.masksToBounds = true
@@ -104,31 +105,32 @@ class JCRegisterInfoViewController: UIViewController {
         view.addGestureRecognizer(tap)
     }
     
-    func textFieldDidChanged(_ textField: UITextField) {
+    @objc func textFieldDidChanged(_ textField: UITextField) {
         if textField.markedTextRange == nil {
             let text = textField.text!
             if text.characters.count > 30 {
-                let range = Range<String.Index>(text.startIndex ..< text.index(text.startIndex, offsetBy: 30))
-                
-                let subText = text.substring(with: range)
+                //                let range = Range<String.Index>(text.startIndex ..< text.index(text.startIndex, offsetBy: 30))
+                //                let subText = text.substring(with: range)
+                let endIndex = text.index(text.startIndex, offsetBy: 30)
+                let subText = String(text.prefix(upTo: endIndex))
                 textField.text = subText
             }
         }
     }
     
-    func _tapView() {
+    @objc func _tapView() {
         view.endEditing(true)
     }
-     
-    func _tapHandler() {
+    
+    @objc func _tapHandler() {
         view.endEditing(true)
         let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "  从相册中选择", "拍照")
         actionSheet.tag = 1001
         actionSheet.show(in: self.view)
     }
-
+    
     //MARK: - click event
-    func _userRegister() {
+    @objc func _userRegister() {
         MBProgressHUD_JChat.showMessage(message: "保存中", toView: self.view)
         userLogin(withUsername: self.username, password: self.password)
     }
@@ -162,7 +164,7 @@ class JCRegisterInfoViewController: UIViewController {
     
     private func uploadImage() {
         if let image = image {
-            let imageData = UIImageJPEGRepresentation(image, 0.8)
+            let imageData = image.jpegData(compressionQuality: 0.8)
             JMSGUser.updateMyInfo(withParameter: imageData!, userFieldType: .fieldsAvatar, completionHandler: { (result, error) in
                 if error == nil {
                     let avatorData = NSKeyedArchiver.archivedData(withRootObject: imageData!)
@@ -206,9 +208,8 @@ extension JCRegisterInfoViewController: UINavigationControllerDelegate, UIImageP
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        var image = info[UIImagePickerControllerOriginalImage] as! UIImage?
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage?
         image = image?.fixOrientation()
         self.image = image
         avatorView.image = image

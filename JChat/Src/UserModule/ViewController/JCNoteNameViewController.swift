@@ -71,13 +71,15 @@ class JCNoteNameViewController: UIViewController {
         navigationItem.rightBarButtonItem =  navRightButton
     }
     
-    func textFieldDidChanged(_ textField: UITextField) {
+    @objc func textFieldDidChanged(_ textField: UITextField) {
         // markedTextRange指的是当前高亮选中的，除了长按选中，用户中文输入拼音过程往往也是高亮选中状态
         if textField.markedTextRange == nil {
             let text = textField.text!
             if text.characters.count > 20 {
-                let range = Range<String.Index>(text.startIndex ..< text.index(text.startIndex, offsetBy: 20))
-                let subText = text.substring(with: range)
+//                let range = Range<String.Index>(text.startIndex ..< text.index(text.startIndex, offsetBy: 20))
+//                let subText = text.substring(with: range)
+                let endIndex = text.index(text.startIndex, offsetBy: 20)
+                let subText = String(text.prefix(upTo: endIndex))
                 textField.text = subText
             }
             let count = 20 - (textField.text?.characters.count)!
@@ -86,7 +88,7 @@ class JCNoteNameViewController: UIViewController {
     }
     
     //MARK: - click func
-    func _saveNickname() {
+    @objc func _saveNickname() {
         noteNameTextField.resignFirstResponder()
         MBProgressHUD_JChat.showMessage(message: "修改中", toView: self.view)
         user.updateNoteName(noteNameTextField.text!) { (result, error) in

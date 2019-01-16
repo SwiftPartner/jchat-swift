@@ -41,7 +41,7 @@ class JCMineViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(_updateUserInfo), name: NSNotification.Name(rawValue: kUpdateUserInfo), object: nil)
     }
     
-    func _updateUserInfo() {
+    @objc func _updateUserInfo() {
         tableview.reloadData()
     }
 
@@ -58,12 +58,13 @@ class JCMineViewController: UIViewController {
 
 }
 
+// FIXME: 登录
 extension JCMineViewController: JMessageDelegate {
     func onReceive(_ event: JMSGNotificationEvent!) {
         switch event.eventType {
-        case .currentUserInfoChange:
-            updateCurrentUserAvator()
-            tableview.reloadData()
+//        case .currentUserInfoChange:
+//            updateCurrentUserAvator()
+//            tableview.reloadData()
         default:
             break
         }

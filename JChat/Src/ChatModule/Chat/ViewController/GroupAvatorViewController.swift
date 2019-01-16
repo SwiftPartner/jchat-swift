@@ -9,27 +9,27 @@
 import UIKit
 
 class GroupAvatorViewController: UIViewController {
-
+    
     var group: JMSGGroup!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         _init()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.shadowImage = nil
         navigationController?.navigationBar.barTintColor = UIColor(netHex: 0x2dd0cf)
     }
-
+    
     fileprivate lazy var imagePicker: UIImagePickerController = {
         var picker = UIImagePickerController()
         picker.sourceType = .camera
@@ -38,7 +38,7 @@ class GroupAvatorViewController: UIViewController {
         picker.delegate = self
         return picker
     }()
-
+    
     fileprivate lazy var imageView: UIImageView = {
         var imageView = UIImageView()
         imageView.frame = UIScreen.main.bounds
@@ -47,14 +47,14 @@ class GroupAvatorViewController: UIViewController {
         imageView.image = UIImage.loadImage("com_icon_group_50")
         return imageView
     }()
-
+    
     private func _init() {
         self.title = "群头像"
         view.backgroundColor = .black
         _setupNavigation()
-
+        
         view.addSubview(imageView)
-
+        
         group.largeAvatarData { (data, id, error) in
             if let data = data {
                 let image = UIImage(data: data)
@@ -62,7 +62,7 @@ class GroupAvatorViewController: UIViewController {
             }
         }
     }
-
+    
     private func _setupNavigation() {
         let navButton = UIButton(frame: CGRect(x: 0, y: 0, width: 18, height: 18))
         navButton.setImage(UIImage.loadImage("com_icon_file_more"), for: .normal)
@@ -70,8 +70,8 @@ class GroupAvatorViewController: UIViewController {
         let item = UIBarButtonItem(customView: navButton)
         navigationItem.rightBarButtonItems =  [item]
     }
-
-    func _more() {
+    
+    @objc func _more() {
         let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "从相册中选择", "拍照")
         actionSheet.show(in: self.view)
     }
@@ -98,20 +98,20 @@ extension GroupAvatorViewController: UIActionSheetDelegate {
 }
 
 extension GroupAvatorViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-
+    
     // MARK: - UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-
-        var image = info[UIImagePickerControllerEditedImage] as! UIImage?
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        var image = info[UIImagePickerController.InfoKey.editedImage] as! UIImage?
         image = image?.fixOrientation()
-        if image != nil {
+        if let image = image {
             MBProgressHUD_JChat.showMessage(message: "正在上传", toView: view)
-
-            guard let imageData = UIImageJPEGRepresentation(image!, 0.8) else {
+            
+            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
                 return
             }
             let info = JMSGGroupInfo()
@@ -129,7 +129,8 @@ extension GroupAvatorViewController: UINavigationControllerDelegate, UIImagePick
                 })
             })
         }
-
+        
         picker.dismiss(animated: true, completion: nil)
     }
+
 }

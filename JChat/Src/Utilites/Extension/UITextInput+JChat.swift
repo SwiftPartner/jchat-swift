@@ -19,9 +19,10 @@ extension UITextView: TextProtocol {
         }
         let text = self.text!
         if text.characters.count > maxSize {
-            let range = Range<String.Index>(text.startIndex ..< text.index(text.startIndex, offsetBy: maxSize))
-
-            let subText = text.substring(with: range)
+//            let range = Range<String.Index>(text.startIndex ..< text.index(text.startIndex, offsetBy: maxSize))
+//            let subText = text.substring(with: range)
+            let endIndex = text.index(text.startIndex, offsetBy: maxSize)
+            let subText = String(text.prefix(upTo: endIndex))
             self.text = subText
         }
     }

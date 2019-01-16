@@ -68,7 +68,7 @@ class JCMyInfoViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(_updateUserInfo), name: NSNotification.Name(rawValue: kUpdateUserInfo), object: nil)
     }
     
-    func _updateUserInfo() {
+    @objc func _updateUserInfo() {
         user = JMSGUser.myInfo()
         tableview.reloadData()
     }
@@ -256,21 +256,19 @@ extension JCMyInfoViewController: UINavigationControllerDelegate, UIImagePickerC
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        var image = info[UIImagePickerControllerEditedImage] as! UIImage?
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var image = info[UIImagePickerController.InfoKey.editedImage] as! UIImage?
         image = image?.fixOrientation()
         if image != nil {
             MBProgressHUD_JChat.showMessage(message: "正在上传", toView: view)
             
-            guard let imageData = UIImageJPEGRepresentation(image!, 0.8) else {
+            guard let imageData = image!.jpegData(compressionQuality: 0.8) else {
                 return
             }
             
             JMSGUser.updateMyInfo(withParameter: imageData, userFieldType: .fieldsAvatar) { (resultObject, error) -> Void in
                 DispatchQueue.main.async(execute: { () -> Void in
-                     MBProgressHUD_JChat.hide(forView: self.view, animated: true)
+                    MBProgressHUD_JChat.hide(forView: self.view, animated: true)
                     if error == nil {
                         MBProgressHUD_JChat.show(text: "上传成功", view: self.view)
                         NotificationCenter.default.post(name: Notification.Name(rawValue: kUpdateUserInfo), object: nil)
