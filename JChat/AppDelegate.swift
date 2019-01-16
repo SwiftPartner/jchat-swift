@@ -14,9 +14,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     // TODO: 设置APPKEY
-    let JMAPPKEY = "ab144665899cd252a34de258"
+    let JMAPPKEY = <#设置APPKEY#>
     // 百度地图 SDK AppKey，请自行申请你对应的 AppKey
-    let BMAPPKEY = "BNsPzc36d1GBRD9zC3QGO3wUFbY3P3qv"
+    let BMAPPKEY = <#设置百度地图APPKEY#>
     
     var _mapManager: BMKMapManager?
     

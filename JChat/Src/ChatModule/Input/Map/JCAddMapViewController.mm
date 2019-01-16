@@ -15,9 +15,8 @@
 
 //@interface JCAddMapViewController () <BMKMapViewDelegate, BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate> {
 
- @interface JCAddMapViewController () <BMKMapViewDelegate, BMKGeoCodeSearchDelegate> {
+@interface JCAddMapViewController () <BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationManagerDelegate> {
     BMKMapView* mapView;//地图视图
-//    BMKLocationService *locService; //定位
     
     BMKPointAnnotation *pointAnnotation; // 一开始显示的大头针
     BOOL annotaionShow; // 使大头针仅显示一个
@@ -39,6 +38,8 @@
     BMKGeoCodeSearch *_geoCodeSearch;
 }
 
+    @property(nonatomic, strong) BMKLocationManager *locationManger; //定位
+
 @end
 
 @implementation JCAddMapViewController
@@ -53,7 +54,9 @@
     if (!_isOnlyShowMap) {
         [self loadAddressTableView];
     }
-    
+    //注意：必须先初始化地理编码类
+    _geoCodeSearch = [[BMKGeoCodeSearch alloc]init];
+    _geoCodeSearch.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -63,8 +66,8 @@
 
 - (void)dealloc {
     mapView.delegate = nil;
-//    locService.delegate = nil;
-//    _geoCodeSearch.delegate = nil;
+    _locationManger.delegate = nil;
+    _geoCodeSearch.delegate = nil;
 }
 
 #pragma mark - baiduMap
@@ -94,15 +97,13 @@
     [self.view addSubview:mapView];
     mapViewPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panEd:)];
     [mapView addGestureRecognizer:mapViewPan];
-    
-    /// FIXME: 定位
-//    // 定位
-//    locService = [[BMKLocationService alloc]init];
-//    locService.delegate = self;
-//    //启动LocationService
-//    [locService startUserLocationService];
-}
 
+    // 定位
+    BMKLocationManager *locationManager = [[BMKLocationManager alloc] init];
+    locationManager.delegate = self;
+    _locationManger = locationManager;
+    [locationManager startUpdatingLocation];
+}
 // 使屏幕显示坐标回到大头针位置
 - (void)locationBtnClick {
     CLLocationCoordinate2D coor;
@@ -149,111 +150,120 @@
     BMKCoordinateRegion region = (BMKCoordinateRegion)view.region;
     
     //——————————初始化反地理编码类————————————
-    //注意：必须先初始化地理编码类
-    _geoCodeSearch = [[BMKGeoCodeSearch alloc]init];
-    _geoCodeSearch.delegate = self;
-//    //初始化反地理编码类
-//    BMKReverseGeoCodeOption *reverseGeoCodeOption= [[BMKReverseGeoCodeOption alloc] init];
-//    //需要反地理编码的坐标位置
-//    reverseGeoCodeOption.reverseGeoPoint = CLLocationCoordinate2DMake(region.center.latitude, region.center.longitude);
-//    // 调用反地址编码方法，让其在代理方法中输出
-//    BOOL flag = [_geoCodeSearch reverseGeoCode:reverseGeoCodeOption];
-//    if (!flag) {
-//        [locService startUserLocationService];
-//    }
+
+    
+    //初始化反地理编码类
+    BMKReverseGeoCodeSearchOption *reverseGeoCodeOption= [[BMKReverseGeoCodeSearchOption alloc] init];
+    //需要反地理编码的坐标位置
+    [reverseGeoCodeOption setLocation: region.center];
+    // 调用反地址编码方法，让其在代理方法中输出
+    BOOL flag = [_geoCodeSearch reverseGeoCode:reverseGeoCodeOption];
+    if (!flag) {
+        [_locationManger startUpdatingLocation];
+    }
 }
 
 // 定位
-//处理位置坐标更新
-- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation {
-//    [locService stopUserLocationService];
-//    NSLog(@"当前的坐标是: %f,%f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
-//
-//    //注意：必须先初始化地理编码类
+- (void)BMKLocationManager:(BMKLocationManager *)manager didFailWithError:(NSError *)error {
+    NSLog([NSString stringWithFormat:@"定位出错了%@", error]);
+}
+
+- (void)BMKLocationManager:(BMKLocationManager *)manager didUpdateLocation:(BMKLocation *)location orError:(NSError *)error {
+    [_locationManger stopUpdatingLocation];
+    //注意：必须先初始化地理编码类
 //    _geoCodeSearch = [[BMKGeoCodeSearch alloc]init];
 //    _geoCodeSearch.delegate = self;
-//    //初始化反地理编码类
-//    BMKReverseGeoCodeOption *reverseGeoCodeOption= [[BMKReverseGeoCodeOption alloc] init];
-//    //需要反地理编码的坐标位置
-//    reverseGeoCodeOption.reverseGeoPoint = CLLocationCoordinate2DMake(userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude);
-//    // 调用反地址编码方法，让其在代理方法中输出
-//    BOOL flag = [_geoCodeSearch reverseGeoCode:reverseGeoCodeOption];
-//    if (!flag) {
-//        [locService startUserLocationService];
-//    }else {
-//    }
+    
+    //初始化反地理编码类
+    BMKReverseGeoCodeSearchOption *reverseGeoCodeOption= [[BMKReverseGeoCodeSearchOption alloc] init];
+    //需要反地理编码的坐标位置
+    [reverseGeoCodeOption setLocation:location.location.coordinate];
+    if(CLLocationCoordinate2DIsValid(location.location.coordinate)) {
+        NSLog([NSString stringWithFormat:@"反编码%d %d", location.location.coordinate.latitude, location.location.coordinate.longitude]);
+    } else {
+        NSLog(@"未获取到位置信息");
+    }
+    
+    // 调用反地址编码方法，让其在代理方法中输出
+    BOOL flag = [_geoCodeSearch reverseGeoCode:reverseGeoCodeOption];
+    if (!flag) {
+        [_locationManger startUpdatingLocation];
+    }else {
+    }
 }
+
 #pragma mark 代理方法返回反地理编码结果
-//- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error
-//{
-//    if (result) {
-//        [addressDataArray removeAllObjects];
-//        screenAddress = [NSString stringWithFormat:@"%@%@", result.addressDetail.streetName, result.addressDetail.streetNumber];
-//
-//        _address = result.address;
-//        _name = result.addressDetail.streetName;
-//        _city = result.addressDetail.city;
-//        _latitude = [NSString stringWithFormat:@"%f", result.location.latitude];
-//        _longitude = [NSString stringWithFormat:@"%f", result.location.longitude];
-//
-//        NSDictionary *dic = @{@"address":_address,@"name": _name, @"locationX":_latitude, @"locationY":_longitude, @"city":_city};
-//        [addressDataArray addObject:dic];
-//    }else{
-//        NSLog(@"找不到相对应的位置信息");
-//    }
-//
-//    // 获取坐标周边信息
-//    int i = 0;
-//    for(BMKPoiInfo *poiInfo in result.poiList)
-//    {
-//        NSDictionary *dic = @{@"address":poiInfo.address, @"name":poiInfo.name, @"locationX":[NSString stringWithFormat:@"%f", poiInfo.pt.latitude], @"locationY":[NSString stringWithFormat:@"%f", poiInfo.pt.longitude], @"city":poiInfo.city};
-//        [addressDataArray addObject:dic];
-//
-//        i++;
-//        if (i==result.poiList.count) {
-//
-//            if (!annotaionShow) {
-//                annotaionShow = YES;
-//                locationBtn.hidden = NO;
-//
-//                // 地图定位显示
-//                BMKCoordinateRegion region;
-//
-//                if (_isOnlyShowMap) {
-//                    region.center.latitude  = _lat;
-//                    region.center.longitude = _lon;
-//                } else {
-//                    region.center.latitude  = [_latitude doubleValue];
-//                    region.center.longitude = [_longitude doubleValue];
-//                }
-//
-//
-//                region.span.latitudeDelta  = 0;
-//                region.span.longitudeDelta = 0;
-//                [UIView animateWithDuration:1 animations:^{
-//                    mapView.region = region;
-//                }];
-//
-//                // 一开始显示的(大头针)
-//                pointAnnotation = [[BMKPointAnnotation alloc]init];
-//                CLLocationCoordinate2D coor;
-//                if (_isOnlyShowMap) {
-//                    coor.latitude = _lat;
-//                    coor.longitude = _lon;
-//                } else {
-//                    coor.latitude = [_latitude doubleValue];
-//                    coor.longitude = [_longitude doubleValue];
-//                }
-//
-//                pointAnnotation.coordinate = coor;
-//                pointAnnotation.title = _name;
-//                [mapView addAnnotation:pointAnnotation];
-//            }
-//
-//            [myTableView reloadData];
-//        }
-//    }
-//}
+- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeSearchResult *)result errorCode:(BMKSearchErrorCode)error {
+    if (result) {
+        NSLog([NSString stringWithFormat:@"获取到反编码信息 %@", result.addressDetail.streetName]);
+        [addressDataArray removeAllObjects];
+        screenAddress = [NSString stringWithFormat:@"%@%@", result.addressDetail.streetName, result.addressDetail.streetNumber];
+        
+        _address = result.address;
+        _name = result.addressDetail.streetName;
+        _city = result.addressDetail.city;
+        _latitude = [NSString stringWithFormat:@"%f", result.location.latitude];
+        _longitude = [NSString stringWithFormat:@"%f", result.location.longitude];
+        
+        NSDictionary *dic = @{@"address":_address,@"name": _name, @"locationX":_latitude, @"locationY":_longitude, @"city":_city};
+        [addressDataArray addObject:dic];
+    }else{
+        NSLog(@"找不到相对应的位置信息");
+    }
+    
+    // 获取坐标周边信息
+    int i = 0;
+    for(BMKPoiInfo *poiInfo in result.poiList)
+    {
+        NSString *city  = poiInfo.city == nil ? @"" : poiInfo.city;
+        NSDictionary *dic = @{@"address":poiInfo.address, @"name":poiInfo.name, @"locationX":[NSString stringWithFormat:@"%f", poiInfo.pt.latitude], @"locationY":[NSString stringWithFormat:@"%f", poiInfo.pt.longitude], @"city":city};
+        [addressDataArray addObject:dic];
+        
+        i++;
+        if (i==result.poiList.count) {
+            
+            if (!annotaionShow) {
+                annotaionShow = YES;
+                locationBtn.hidden = NO;
+                
+                // 地图定位显示
+                BMKCoordinateRegion region;
+                
+                if (_isOnlyShowMap) {
+                    region.center.latitude  = _lat;
+                    region.center.longitude = _lon;
+                } else {
+                    region.center.latitude  = [_latitude doubleValue];
+                    region.center.longitude = [_longitude doubleValue];
+                }
+                
+                
+                region.span.latitudeDelta  = 0;
+                region.span.longitudeDelta = 0;
+                [UIView animateWithDuration:1 animations:^{
+                    mapView.region = region;
+                }];
+                
+                // 一开始显示的(大头针)
+                pointAnnotation = [[BMKPointAnnotation alloc]init];
+                CLLocationCoordinate2D coor;
+                if (_isOnlyShowMap) {
+                    coor.latitude = _lat;
+                    coor.longitude = _lon;
+                } else {
+                    coor.latitude = [_latitude doubleValue];
+                    coor.longitude = [_longitude doubleValue];
+                }
+                
+                pointAnnotation.coordinate = coor;
+                pointAnnotation.title = _name;
+                [mapView addAnnotation:pointAnnotation];
+            }
+            
+            [myTableView reloadData];
+        }
+    }
+}
 
 #pragma mark 地图底部tableView数据展示
 - (void)loadAddressTableView {

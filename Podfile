@@ -8,6 +8,7 @@ target 'JChat' do
     pod 'MJRefresh'
     pod 'FMDB'
     pod 'BaiduMapKit'
+    pod 'BMKLocationKit'
     pod 'JMessage'
     pod 'RxSwift'
     pod 'RxCocoa'

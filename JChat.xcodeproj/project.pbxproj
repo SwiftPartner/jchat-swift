@@ -1845,7 +1845,7 @@
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D READ_VERSION";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bechoed.jjj;
+				PRODUCT_BUNDLE_IDENTIFIER = com.szancun.ourvillagesdevelop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/JChat/JChat-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
@@ -1877,7 +1877,7 @@
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D READ_VERSION";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bechoed.jjj;
+				PRODUCT_BUNDLE_IDENTIFIER = com.szancun.ourvillagesdevelop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/JChat/JChat-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
